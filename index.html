@@ -20,12 +20,24 @@
             padding: 0;
             color: var(--text-color);
             background-color: var(--primary-color);
+        }
+
+        /* 最完美的固定背景解法：
+           利用 body::before 建立一個獨立的固定層，解決 iOS 手機滑動背景破圖的問題 
+        */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2; /* 確保背景圖在所有內容（包含 Header 毛玻璃）的最後面 */
             
-            /* 這裡放你的背景圖 */
+            /* 電腦版預設背景圖 */
             background-image: url('8.jpg'); 
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
         }
 
         /* 2. 重構 Header：加入毛玻璃漸變效果 */
@@ -45,7 +57,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* 確保它在內容的下層 */
+            z-index: -1; /* 確保它在內容的下層，但在 body 背景之上 */
             
             /* 加上微暗的漸變底色，讓白色文字更清楚 */
             background: linear-gradient(to bottom, rgba(40, 50, 60, 0.6) 0%, rgba(40, 50, 60, 0) 100%);
@@ -102,13 +114,6 @@
             margin-top: 5px;
         }
 
-        @media (max-width: 600px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -132,7 +137,7 @@
             margin-top: 0;
         }
 
-        /* ------------------ 時間線與其餘 CSS 保持不變 ------------------ */
+        /* ------------------ 時間線與其餘 CSS ------------------ */
         .timeline {
             border-left: 3px solid var(--accent-color);
             padding-left: 1.5rem;
@@ -240,13 +245,46 @@
         a:hover {
             text-decoration: underline;
         }
+
+        /* ------------------ 響應式手機版設定 (Media Query) ------------------ */
+        @media (max-width: 768px) {
+            /* 1. 替換手機版的背景圖片 */
+            body::before {
+                background-image: url('3.jpg'); /* 請將這裡替換成你的手機版圖片檔名 */
+            }
+
+            /* 2. Header 頭像與文字改為上下排列置中 */
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .profile-img {
+                width: 140px; /* 手機版頭像稍微縮小 */
+                height: 140px;
+            }
+
+            .profile-info h1 {
+                font-size: 2.2rem; /* 手機版標題稍微縮小 */
+            }
+
+            /* 3. 調整手機版左右留白 */
+            .container {
+                padding: 1rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="header-container">
-            <img src="你的大頭貼網址或路徑.jpg" alt="Profile Picture" class="profile-img">
+            <img src="1.jpg" alt="Profile Picture" class="profile-img">
             <div class="profile-info">
                 <div class="profile-author">AUTHOR</div>
                 <h1>蔡函伃 (Hanyu)</h1>
@@ -343,7 +381,7 @@
             <h2>Contact Me</h2>
             <p>歡迎透過以下方式聯繫我：</p>
             <ul>
-                <li>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></li>
+                <li>Email: <a href="mailto:hanyu0325@gmail.com">hanyu0325@gmail.com</a></li>
                 <li>GitHub: <a href="https://github.com/hanyu325" target="_parent">github.com/hanyu325</a></li>
             </ul>
         </section>
