@@ -1,11 +1,17 @@
+/* ========================================
+   CSS 全局變量定義
+   ======================================== */
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #34495e;
-    --accent-color: #3498db;
-    --text-color: #333;
-    --bg-color: #f8f9fa;
+    --primary-color: #294423;       /* 主要色彩 - 深藍灰 */
+    --secondary-color: #345e34;     /* 次要色彩 - 稍淺藍灰 */
+    --accent-color: #245c1685;        /* 強調色 - 亮藍 */
+    --text-color: #333333;             /* 文字色 - 深灰 */
+    --bg-color: #f8f9fa00;            /* 背景色 - 淺灰 */
 }
 
+/* ========================================
+   頁面基本樣式
+   ======================================== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -13,96 +19,116 @@ body {
     padding: 0;
     color: var(--text-color);
     background-color: var(--primary-color);
+
+    /* 💡 請在 body 裡面加上這 3 行 */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* 全螢幕固定背景圖 */
 body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -2; 
-    background-image: url('8.jpg'); 
-    background-size: cover;
-    background-position: center;
+    content: '';                    /* 創建偽元素 */
+    position: fixed;                /* 固定定位 */
+    top: 0;                         /* 距上方 0 */
+    left: 0;                        /* 距左方 0 */
+    width: 100vw;                   /* 寬度100視口寬度 */
+    height: 100vh;                  /* 高度100視口高度 */
+    z-index: -2;                    /* 層級最底 */
+    background-image: url('8.jpg'); /* 背景圖片 */
+    background-size: cover;         /* 圖片覆蓋整個區域 */
+    background-position: center;    /* 居中定位 */
 }
 
+/* ========================================
+   Header 標題區樣式
+   ======================================== */
 /* Header 所屬的毛玻璃與漸變遮罩 */
 header {
-    position: relative; 
-    color: white;
-    padding: 4rem 2rem 4rem; /* 稍微縮減底部留白，讓整體更緊湊 */
-    display: flex;
-    justify-content: center;
+    position: relative;             /* 相對定位 */
+    color: white;                   /* 文字為白色 */
+    padding: 4rem 2rem 4rem;        /* 上下內邊距 4rem，左右 2rem */
+    display: flex;                  /* 使用彈性佈局 */
+    justify-content: center;        /* 水平居中 */
 }
 
+/* Header 背景效果 - 毛玻璃模糊背景 */
 header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; 
+    content: '';                    /* 創建偽元素 */
+    position: absolute;             /* 絕對定位 */
+    top: 0;                         /* 距上方 0 */
+    left: 0;                        /* 距左方 0 */
+    width: 100%;                    /* 寬度100% */
+    height: 100%;                   /* 高度100% */
+    z-index: -1;                    /* 在 header 後面 */
+    /* 漸變效果：上方不透明，下方透明 */
     background: linear-gradient(to bottom, rgba(40, 50, 60, 0.7) 0%, rgba(40, 50, 60, 0) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    backdrop-filter: blur(12px);    /* 高斯模糊效果 */
+    -webkit-backdrop-filter: blur(12px); /* Webkit 瀏覽器相容 */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%); /* Webkit 遮罩 */
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%); /* 遮罩效果 */
 }
 
+/* ========================================
+   Header 容器佈局
+   ======================================== */
 /* 核心修改：改為 column (上下排列)，徹底釋放橫向空間 */
 .header-container {
-    max-width: 900px;
-    width: 100%;
-    display: flex;
-    flex-direction: column; 
-    gap: 1.5rem; /* 上方文字與下方選單的整齊間距 */
+    max-width: 900px;               /* 最大寬度 900px */
+    width: 100%;                    /* 寬度100% */
+    display: flex;                  /* 彈性佈局 */
+    flex-direction: column;         /* 上下排列 */
+    gap: 1.5rem;                    /* 元素間距 1.5rem */
 }
 
+/* ========================================
+   個人資訊區塊
+   ======================================== */
 /* 左側頭像與文字容器：現在可以舒展到完整寬度 */
 .profile-main {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    width: 100%;
+    display: flex;                  /* 彈性佈局 */
+    align-items: center;            /* 垂直居中 */
+    gap: 2rem;                      /* 元素間距 2rem */
+    width: 100%;                    /* 寬度100% */
 }
 
+/* 頭像樣式 */
 .profile-img {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    width: 160px;                   /* 寬度 160px */
+    height: 160px;                  /* 高度 160px */
+    border-radius: 50%;             /* 圓形頭像 */
+    object-fit: cover;              /* 保持長寬比裁切 */
+    border: 2.5px solid rgba(255, 255, 255, 0.3); /* 半透明白色邊框 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* 陰影效果 */
 }
 
+/* 文字資訊容器 */
 .profile-info {
-    display: flex;
-    flex-direction: column;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.6); 
+    display: flex;                  /* 彈性佈局 */
+    flex-direction: column;         /* 上下排列 */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6); /* 文字陰影 */
 }
 
+/* 作者身份文字 */
 .profile-author {
-    font-size: 0.9rem;
-    color: #ecf0f1;
-    letter-spacing: 1px;
-    margin-bottom: 0.2rem;
-    text-transform: uppercase;
+    font-size: 0.9rem;              /* 字體大小 0.9rem */
+    color: #ecf0f1;                 /* 淺灰色 */
+    letter-spacing: 1px;            /* 字間距 1px */
+    margin-bottom: 0.2rem;          /* 下方邊距 0.2rem */
+    text-transform: uppercase;      /* 大寫轉換 */
 }
 
+/* 名字標題 */
 .profile-info h1 {
-    margin: 0;
-    font-size: 2.8rem;
-    font-weight: 600;
-    white-space: nowrap; /* 確保名字絕對不亂斷行 */
+    margin: 0;                      /* 移除預設邊距 */
+    font-size: 2.8rem;              /* 字體大小 2.8rem */
+    font-weight: 600;               /* 字體粗細 600 */
+    white-space: nowrap;            /* 確保名字絕對不亂斷行 */
 }
 
 .profile-info p {
     font-size: 1.2rem;
-    color: #ecf0f1;
+    color: #bec2be;
     margin-top: 5px;
     margin: 0;
     white-space: nowrap; /* 確保學校名稱絕對不亂斷行 */
@@ -110,25 +136,25 @@ header::before {
 
 /* 導覽選單：移到第二行，並精準推至最右邊 */
 .profile-nav {
-    display: flex;
-    gap: 1.8rem;
-    align-items: center;
-    white-space: nowrap;         
-    margin-left: auto; /* ✨ 關鍵：把選單整組推到最右邊，精確對齊下方白格子的右邊緣 */
+    display: flex;                  /* 彈性佈局，水平排列連結 */
+    gap: 1.8rem;                    /* 連結間距 1.8rem */
+    align-items: center;            /* 垂直置中對齊 */
+    white-space: nowrap;            /* 禁止連結換行 */
+    margin-left: auto;              /* 推整組選單到最右側 */
 }
 
 .profile-nav a, .dropbtn {
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
-    font-size: 1.05rem;
-    font-weight: 500;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 0;
-    font-family: inherit;
-    position: relative;
-    transition: color 0.3s;
+    color: rgba(224, 224, 224, 0.582);/* 文字顏色：半透明白 */
+    text-decoration: none;          /* 移除底線 */
+    font-size: 1.05rem;             /* 字體大小 */
+    font-weight: 500;               /* 字重 */
+    background: none;               /* 無背景 */
+    border: none;                   /* 無邊框 */
+    cursor: pointer;                /* 滑鼠樣式 */
+    padding: 0;                     /* 取消預設內距 */
+    font-family: inherit;           /* 繼承字體 */
+    position: relative;             /* 為偽元素定位 */
+    transition: color 0.3s;         /* 顏色過渡效果 */
 }
 
 .profile-nav a::after {
@@ -138,78 +164,85 @@ header::before {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: white;
-    transition: width 0.3s ease;
+    background-color: white;        /* 連結底部滑動線 */
+    transition: width 0.3s ease;    /* 線條展開動畫 */
 }
 
 .profile-nav a:hover::after {
-    width: 100%;
+    width: 100%;                    /* 滑鼠移上時底線滿寬 */
 }
 
 .profile-nav a:hover, .dropdown:hover .dropbtn {
-    color: #fff;
+    color: #fff;                    /* 滑鼠移上時文字變白 */
+    text-decoration: none; /* 👈 加上這行，強制殺掉瀏覽器預設的底線 */
 }
 
-/* 下拉選單與隱形橋樑 */
+/* 下拉選單設定 */
 .dropdown {
-    position: relative;
-    display: inline-block;
+    position: relative;             /* 讓下拉內容絕對定位於此 */
+    display: inline-block;          /* 行內區塊顯示 */
 }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0; 
-    background-color: rgba(30, 40, 50, 0.85);
-    backdrop-filter: blur(8px);
-    min-width: 110px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
-    z-index: 10;
-    border-radius: 6px;
-    margin-top: 8px; 
-    overflow: visible; 
+    display: none;                  /* 預設隱藏 */
+    position: absolute;             /* 絕對定位 */
+    right: 0;                       /* 靠右對齊 */
+    background-color: rgba(227, 240, 226, 0.418); /* 半透明底色 */
+    backdrop-filter: blur(8px);     /* 毛玻璃模糊 */
+    min-width: 110px;               /* 最小寬度 */
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.3); /* 陰影 */
+    z-index: 10;                    /* 視野層級 */
+    border-radius: 6px;             /* 圓角 */
+    margin-top: 8px;                /* 與按鈕間距 */
+    overflow: visible;              /* 允許溢出可見 */
 }
 
 .dropdown-content::before {
     content: '';
     position: absolute;
-    top: -12px; 
+    top: -12px;
     left: 0;
     width: 100%;
     height: 12px;
-    background: transparent; 
+    background: transparent;         /* 用於延展點擊區域 */
 }
 
 .dropdown-content a {
-    color: white;
-    padding: 8px 14px;
-    font-size: 0.95rem;
-    display: block;
-    text-align: left;
-    transition: background 0.2s;
+    color: white;                   /* 文字顏色 */
+    padding: 8px 14px;              /* 內距 */
+    font-size: 0.95rem;             /* 字體大小 */
+    display: block;                 /* 區塊顯示 */
+    text-align: left;               /* 左對齊 */
+    transition: background 0.2s;    /* 背景過渡 */
 }
 
 .dropdown-content a::after {
-    display: none; 
+    display: none;                  /* 隱藏底線效果 */
 }
 
 .dropdown-content a:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(235, 238, 234, 0.15); /* 滑鼠移上時背景 */
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
+    display: block;                 /* 滑鼠懸停顯示下拉內容 */
 }
+
 
 /* 內容區塊 */
 .container {
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem;
+
+    /* 💡 請在 .container 裡面加上這 3 行 */
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 section {
-    background: rgba(255, 255, 255, 0.85); 
+    background: rgba(255, 255, 255, 0.616); 
     backdrop-filter: blur(8px); 
     padding: 2rem;
     border-radius: 12px;
@@ -307,10 +340,40 @@ ul.skill-list li::before {
 }
 
 footer {
+    position: relative;      /* 為了定位背景的毛玻璃層 */
     text-align: center;
-    padding: 2rem;
-    background-color: rgba(44, 62, 80, 0.9); 
-    color: white;
+    padding: 3.5rem 2rem 2rem; /* 增加頂部留白，讓漸變過渡空間更自然 */
+    color: #afafaf;
+    background: transparent; /* ⚠️ 關鍵：本體設為透明，交由偽元素處理玻璃效果 */
+}
+
+/* 建立獨立的頁尾毛玻璃漸變層 */
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    
+    /* 漸變底色：由下往上（深色漸變至完全透明） */
+    background: linear-gradient(to top, rgba(132, 155, 110, 0.349) 0%, rgba(51, 80, 44, 0) 100%);
+    
+    /* 毛玻璃模糊效果 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* 漸變遮罩：讓「模糊效果本身」也由下往上淡出，與背景完美融為一體 */
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+}
+
+/* 順手幫頁尾的副文字加個微透光的高級感 */
+footer p.sub-text {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 4px;
 }
 
 a {
@@ -324,10 +387,12 @@ a:hover {
 
 /* 📱 響應式手機版設定 */
 @media (max-width: 768px) {
+    /* 手機版背景圖片替換為較淺的3.jpg */
     body::before {
         background-image: url('3.jpg'); 
     }
 
+    /* Header容器改為垂直排列，居中對齊 */
     .header-container {
         flex-direction: column;
         text-align: center;
@@ -335,27 +400,32 @@ a:hover {
         gap: 1rem;
     }
 
+    /* 主要資訊區改為上下排列，居中顯示 */
     .profile-main {
         flex-direction: column;
         text-align: center;
         gap: 1rem;
     }
 
+    /* 手機版寬度太窄時，允許名字和學校名稱正常自動換行 */
     .profile-info h1, .profile-info p {
-        white-space: normal; /* 手機版寬度太窄時，允許正常的自動換行 */
+        white-space: normal;
     }
 
+    /* 手機版取消靠右，改回居中排列導覽選單 */
     .profile-nav {
-        margin-left: 0; /* 手機版取消靠右，改回居中排列 */
+        margin-left: 0;
         justify-content: center;
         gap: 1.2rem;
         margin-top: 0.5rem;
     }
 
+    /* 減少容器內邊距，適應手機螢幕寬度 */
     .container {
         padding: 1rem;
     }
 
+    /* 減少各區段的內邊距以節省空間 */
     section {
         padding: 1.5rem;
     }
