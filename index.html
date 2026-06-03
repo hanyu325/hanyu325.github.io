@@ -3,293 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hanyu's Website</title>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --text-color: #333;
-            --bg-color: #f8f9fa;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: var(--text-color);
-            background-color: var(--primary-color);
-        }
-
-        /* 最完美的固定背景解法：
-           利用 body::before 建立一個獨立的固定層，解決 iOS 手機滑動背景破圖的問題 
-        */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2; /* 確保背景圖在所有內容（包含 Header 毛玻璃）的最後面 */
-            
-            /* 電腦版預設背景圖 */
-            background-image: url('8.jpg'); 
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* 2. 重構 Header：加入毛玻璃漸變效果 */
-        header {
-            position: relative; /* 為了定位背景的毛玻璃層 */
-            color: white;
-            padding: 4rem 2rem 6rem; /* 底部多留一點空間讓漸層過渡更自然 */
-            display: flex;
-            justify-content: center;
-        }
-
-        /* 利用 ::before 建立一個獨立的毛玻璃漸變層，放在文字與圖片的下方 */
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* 確保它在內容的下層，但在 body 背景之上 */
-            
-            /* 加上微暗的漸變底色，讓白色文字更清楚 */
-            background: linear-gradient(to bottom, rgba(40, 50, 60, 0.6) 0%, rgba(40, 50, 60, 0) 100%);
-            
-            /* 毛玻璃模糊效果 */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            
-            /* 重點在這！使用漸變遮罩讓「模糊效果」本身由上往下淡出 */
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
-        }
-
-        .header-container {
-            max-width: 900px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .profile-img {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .profile-info {
-            display: flex;
-            flex-direction: column;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6); /* 加強文字陰影 */
-        }
-
-        .profile-author {
-            font-size: 0.9rem;
-            color: #ecf0f1;
-            letter-spacing: 1px;
-            margin-bottom: 0.2rem;
-            text-transform: uppercase;
-        }
-
-        .profile-info h1 {
-            margin: 0;
-            font-size: 2.8rem;
-            font-weight: 600;
-        }
-
-        .profile-info p {
-            font-size: 1.2rem;
-            color: #ecf0f1;
-            margin-top: 5px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* 內容區塊的微透明設定 */
-        section {
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(8px); 
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.5rem;
-            margin-top: 0;
-        }
-
-        /* ------------------ 時間線與其餘 CSS ------------------ */
-        .timeline {
-            border-left: 3px solid var(--accent-color);
-            padding-left: 1.5rem;
-            margin-left: 1rem;
-            position: relative;
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -1.95rem;
-            top: 0.3rem;
-            width: 12px;
-            height: 12px;
-            background-color: white;
-            border: 3px solid var(--accent-color);
-            border-radius: 50%;
-        }
-
-        .timeline-date {
-            font-size: 0.9rem;
-            color: var(--accent-color);
-            font-weight: bold;
-            margin-bottom: 0.2rem;
-        }
-
-        .timeline-title {
-            font-size: 1.2rem;
-            color: var(--secondary-color);
-            margin: 0;
-            font-weight: bold;
-        }
-
-        .timeline-subtitle {
-            font-size: 1rem;
-            color: #7f8c8d;
-            margin: 0.2rem 0 0.5rem 0;
-            font-style: italic;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .skill-category h3 {
-            color: var(--secondary-color);
-            font-size: 1.1rem;
-        }
-
-        ul.skill-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        ul.skill-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(0,0,0,0.1); 
-        }
-
-        ul.skill-list li::before {
-            content: "▹";
-            color: var(--accent-color);
-            margin-right: 8px;
-        }
-
-        .project-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .project-item h3 {
-            margin-bottom: 0.2rem;
-            color: var(--secondary-color);
-        }
-
-        .project-meta {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            font-style: italic;
-            margin-bottom: 0.5rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background-color: rgba(44, 62, 80, 0.9); 
-            color: white;
-        }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* ------------------ 響應式手機版設定 (Media Query) ------------------ */
-        @media (max-width: 768px) {
-            /* 1. 替換手機版的背景圖片 */
-            body::before {
-                background-image: url('3.jpg'); /* 請將這裡替換成你的手機版圖片檔名 */
-            }
-
-            /* 2. Header 頭像與文字改為上下排列置中 */
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-
-            .profile-img {
-                width: 140px; /* 手機版頭像稍微縮小 */
-                height: 140px;
-            }
-
-            .profile-info h1 {
-                font-size: 2.2rem; /* 手機版標題稍微縮小 */
-            }
-
-            /* 3. 調整手機版左右留白 */
-            .container {
-                padding: 1rem;
-            }
-
-            section {
-                padding: 1.5rem;
-            }
-        }
-    </style>
+    <title>Hanyu's Website - About</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <div class="header-container">
-            <img src="1.jpg" alt="Profile Picture" class="profile-img">
-            <div class="profile-info">
-                <div class="profile-author">AUTHOR</div>
-                <h1>蔡函伃 (Hanyu)</h1>
-                <p>Currently studying in Yuan Ze University</p>
+            <div class="profile-main">
+                <img src="1.jpg" alt="Profile Picture" class="profile-img">
+                <div class="profile-info">
+                    <div class="profile-author">AUTHOR</div>
+                    <h1>蔡函伃 (Hanyu)</h1>
+                    <p>Currently studying in Yuan Ze University</p>
+                </div>
             </div>
+            
+            <nav class="profile-nav">
+                <a href="index.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="contact.html">Contact Me</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Language ▾</button>
+                    <div class="dropdown-content">
+                        <a href="index.html">繁體中文</a>
+                        <a href="en/index.html">English</a> 
+                    </div>
+                </div>
+            </nav>
         </div>
     </header>
 
@@ -322,67 +63,15 @@
                     <p class="timeline-subtitle">電機通訊學院英語學士班</p>
                     <p>我逃了，因為我討厭電子學和工程數學。</p>
                 </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-date">[入學年份] - [畢業年份]</div>
-                    <h3 class="timeline-title">國立中央大學附屬中壢高級中學</h3>
-                    <p>[可選：簡短描述。如果不需要這個區塊，可以直接將這整段 timeline-item 刪除。]</p>
-                </div>
             </div>
         </section>
 
-        <section id="skills">
-            <h2>Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>[技能類別一]</h3>
-                    <ul class="skill-list">
-                        <li>[技能項目 A]</li>
-                        <li>[技能項目 B]</li>
-                        <li>[技能項目 C]</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>[技能類別二]</h3>
-                    <ul class="skill-list">
-                        <li>[技能項目 D]</li>
-                        <li>[技能項目 E]</li>
-                        <li>[技能項目 F]</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>[技能類別三]</h3>
-                    <ul class="skill-list">
-                        <li>[技能項目 G]</li>
-                        <li>[技能項目 H]</li>
-                        <li>[技能項目 I]</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects">
-            <h2>近期專案</h2>
-            
-            <div class="project-item">
-                <h3>[專案名稱 一]</h3>
-                <div class="project-meta">技術棧：[技術 A], [技術 B]</div>
-                <p>[在這裡簡述該專案的目標、你負責的部分，以及最終達成的成果或學習到的經驗。]</p>
-            </div>
-
-            <div class="project-item">
-                <h3>[專案名稱 二]</h3>
-                <div class="project-meta">技術棧：[技術 C], [技術 D]</div>
-                <p>[在這裡簡述該專案的目標、你負責的部分，以及最終達成的成果或學習到的經驗。]</p>
-            </div>
-        </section>
-
-        <section id="contact">
-            <h2>Contact Me</h2>
-            <p>歡迎透過以下方式聯繫我：</p>
-            <ul>
-                <li>Email: <a href="mailto:hanyu0325@gmail.com">hanyu0325@gmail.com</a></li>
-                <li>GitHub: <a href="https://github.com/hanyu325" target="_parent">github.com/hanyu325</a></li>
+        <section id="about">
+            <h2>Certificates & Licenses</h2>
+            <ul class="skill-list">
+                <li>[證照項目一 / 如：Cisco CCNA 等網路相關認證]</li>
+                <li>[證照項目二 / 如：日檢 JLPT 證照]</li>
+                <li>[證照項目三 / 安全性或其他專業認證]</li>
             </ul>
         </section>
     </div>
