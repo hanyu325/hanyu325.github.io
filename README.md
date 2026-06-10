@@ -19,11 +19,16 @@ hanyu325.github.io/
     photos/
         
 ```
+
+---
+
 ## Technology Used
 - HTML
 - CSS
 - Gemini: Helped turn my ideas into HTML and CSS.
 - GitHub Copilot: Assisted with English translation and adding code comments.
+
+---
 
 ## Personal thoughts and future improvement
 I have wanted to build my own personal website for a long time, but I always kept postponing it, thinking that I would do it when I had more free time. I am glad that this course, AI-assisted Software Development, gave me the opportunity and motivation to finally complete it.
